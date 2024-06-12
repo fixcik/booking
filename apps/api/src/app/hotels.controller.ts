@@ -11,7 +11,9 @@ import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { HotelContacts } from '@booking/contracts';
 import { HotelCreateDto } from './dto/hotel-create.dto';
 import { RoomCreateDto } from './dto/room-create.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('hotel')
 @Controller('hotels')
 export class HotelsController {
   constructor(private readonly amqpConnection: AmqpConnection) {}
