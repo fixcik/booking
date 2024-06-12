@@ -1,1 +1,1 @@
-export * as Hotel from './hotels';
+export * as HotelContacts from './hotels';

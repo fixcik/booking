@@ -1,27 +1,34 @@
 import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Hotel } from '@booking/contracts';
+import { HotelContacts } from '@booking/contracts';
 
 @Injectable()
 export class RoomTypeController {
   constructor(private readonly prismaClient: PrismaService) {}
 
   @RabbitRPC({
-    exchange: Hotel.Exchange,
-    routingKey: Hotel.RoomCreate.Topic,
-    queue: Hotel.RoomCreate.Queue,
+    exchange: HotelContacts.Exchange,
+    routingKey: HotelContacts.RoomCreate.Topic,
+    queue: HotelContacts.RoomCreate.Queue
   })
-  public async createRoom(data) {
+  public async createRoom(
+    data: HotelContacts.RoomCreate.Request
+  ): Promise<HotelContacts.RoomCreate.Response> {
     return this.prismaClient.roomType.create({ data });
   }
 
   @RabbitRPC({
-    exchange: Hotel.Exchange,
-    routingKey: Hotel.RoomDelete.Topic,
-    queue: Hotel.RoomDelete.Queue,
+    exchange: HotelContacts.Exchange,
+    routingKey: HotelContacts.RoomDelete.Topic,
+    queue: HotelContacts.RoomDelete.Queue
   })
-  public async deleteRoom({ id }) {
-    return this.prismaClient.roomType.delete({ where: { id } });
+  public async deleteRoom({
+    roomId,
+    hotelId
+  }: HotelContacts.RoomDelete.Request): Promise<HotelContacts.RoomDelete.Response> {
+    return this.prismaClient.roomType.delete({
+      where: { id: roomId, hotelId }
+    });
   }
 }

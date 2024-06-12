@@ -1,7 +1,9 @@
-import { Hotel } from '@booking/contracts';
+import { HotelContacts } from '@booking/contracts';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class RoomCreateDto implements Hotel.RoomCreate.Request {
+export class RoomCreateDto
+  implements Omit<HotelContacts.RoomCreate.Request, 'hotelId'>
+{
   @IsString()
   @IsNotEmpty()
   name: string;

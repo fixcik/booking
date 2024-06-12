@@ -1,9 +1,14 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, RoomType } from '@prisma/client';
 
 export const Topic = 'rpc.room-create';
 export const Queue = 'room-create';
 
-export type Request = Pick<
-  Prisma.RoomTypeCreateInput,
-  'name' | 'description' | 'maxOccupancy' | 'price'
->;
+export interface Request
+  extends Pick<
+    Prisma.RoomTypeCreateInput,
+    'name' | 'description' | 'maxOccupancy' | 'price'
+  > {
+  hotelId: number;
+}
+
+export type Response = RoomType;

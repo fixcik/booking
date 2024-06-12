@@ -1,40 +1,42 @@
 import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Hotel } from '@booking/contracts';
+import { HotelContacts } from '@booking/contracts';
 
 @Injectable()
 export class HotelController {
   constructor(private readonly prismaClient: PrismaService) {}
 
   @RabbitRPC({
-    exchange: Hotel.Exchange,
-    routingKey: Hotel.GetList.Topic,
-    queue: Hotel.GetList.Queue,
+    exchange: HotelContacts.Exchange,
+    routingKey: HotelContacts.GetList.Topic,
+    queue: HotelContacts.GetList.Queue
   })
-  public async getList() {
-    console.log('getList');
+  public async getList(): Promise<HotelContacts.GetList.Response> {
     return this.prismaClient.hotel.findMany({
-      take: 10,
-      include: { room_types: true },
+      take: 10
     });
   }
 
   @RabbitRPC({
-    exchange: Hotel.Exchange,
-    routingKey: Hotel.Create.Topic,
-    queue: Hotel.Create.Queue,
+    exchange: HotelContacts.Exchange,
+    routingKey: HotelContacts.Create.Topic,
+    queue: HotelContacts.Create.Queue
   })
-  public async createHotel(hotel) {
+  public async createHotel(
+    hotel: HotelContacts.Create.Request
+  ): Promise<HotelContacts.Create.Response> {
     return this.prismaClient.hotel.create({ data: hotel });
   }
 
   @RabbitRPC({
-    exchange: Hotel.Exchange,
-    routingKey: Hotel.Delete.Topic,
-    queue: Hotel.Delete.Queue,
+    exchange: HotelContacts.Exchange,
+    routingKey: HotelContacts.Delete.Topic,
+    queue: HotelContacts.Delete.Queue
   })
-  public async deleteHotel({ id }) {
+  public async deleteHotel({
+    id
+  }: HotelContacts.Delete.Request): Promise<HotelContacts.Delete.Response> {
     return this.prismaClient.hotel.delete({ where: { id } });
   }
 }
