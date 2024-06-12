@@ -41,7 +41,13 @@ describe('RoomTypeController', () => {
         price: 1000
       };
 
-      const room = { id: 1, description: '', ...roomData };
+      const room = {
+        id: 1,
+        description: '',
+        ...roomData,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
 
       jest.spyOn(prismaService.roomType, 'create').mockResolvedValue(room);
 

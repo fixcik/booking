@@ -1,9 +1,9 @@
 import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
-import { Injectable } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { HotelContacts } from '@booking/contracts';
 
-@Injectable()
+@Controller()
 export class HotelController {
   constructor(private readonly prismaClient: PrismaService) {}
 
@@ -12,9 +12,13 @@ export class HotelController {
     routingKey: HotelContacts.GetList.Topic,
     queue: HotelContacts.GetList.Queue
   })
-  public async getList(): Promise<HotelContacts.GetList.Response> {
+  public async getList({
+    take = 10,
+    skip
+  }: HotelContacts.GetList.Request): Promise<HotelContacts.GetList.Response> {
     return this.prismaClient.hotel.findMany({
-      take: 10
+      take,
+      skip
     });
   }
 

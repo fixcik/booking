@@ -6,16 +6,57 @@ model Hotel {
   id         Int        @id @default(autoincrement())
   name       String
   room_types RoomType[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime?  @updatedAt
 }
 
 model RoomType {
-  id           Int     @id @default(autoincrement())
-  hotel        Hotel   @relation(fields: [hotelId], references: [id])
+  id           Int       @id @default(autoincrement())
+  hotel        Hotel     @relation(fields: [hotelId], references: [id])
   hotelId      Int
   name         String
   description  String?
   maxOccupancy Int
   price        Float
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  Order        Order[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+  name      String
+  role      UserRole @default(USER)
+  orders    Order[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime?   @updatedAt
+  user         User        @relation(fields: [userId], references: [id])
+  userId       Int
+  roomType     RoomType    @relation(fields: [roomTypeId], references: [id])
+  roomTypeId   Int
+  checkInDate  DateTime    @db.Date
+  checkOutDate DateTime    @db.Date
+  totalPrice   Float
+  status       OrderStatus @default(PENDING)
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }
 
 datasource db {

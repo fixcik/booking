@@ -16,11 +16,11 @@ describe('HotelService', () => {
             hotel: {
               findMany: jest.fn(),
               create: jest.fn(),
-              delete: jest.fn(),
-            },
-          },
-        },
-      ],
+              delete: jest.fn()
+            }
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<HotelController>(HotelController);
@@ -40,13 +40,17 @@ describe('HotelService', () => {
           result as unknown as ReturnType<typeof prismaService.hotel.findMany>
         );
 
-      expect(await service.getList()).toBe(result);
+      expect(await service.getList({})).toBe(result);
     });
   });
 
   describe('createHotel', () => {
     it('should create a hotel', async () => {
-      const hotel = { name: 'Test Hotel' };
+      const hotel = {
+        name: 'Test Hotel',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
       const result = { id: 1, ...hotel };
       jest.spyOn(prismaService.hotel, 'create').mockResolvedValue(result);
 

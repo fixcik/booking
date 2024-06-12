@@ -1,9 +1,9 @@
 import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
-import { Injectable } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { HotelContacts } from '@booking/contracts';
 
-@Injectable()
+@Controller()
 export class RoomTypeController {
   constructor(private readonly prismaClient: PrismaService) {}
 

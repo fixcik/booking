@@ -1,9 +1,8 @@
-import { Module } from '@nestjs/common';
-
-import { HotelsController } from './hotels.controller';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { Module } from '@nestjs/common';
 import { OrdersController } from './orders.controller';
-import { HotelContacts, OrderContacts } from '@booking/contracts';
+import { PrismaService } from './prisma.service';
+import { OrderContacts } from '@booking/contracts';
 
 @Module({
   imports: [
@@ -11,11 +10,8 @@ import { HotelContacts, OrderContacts } from '@booking/contracts';
       uri: process.env.RABBITMQ_URL,
       connectionInitOptions: { wait: false },
       defaultRpcTimeout: 10000,
+      enableControllerDiscovery: true,
       exchanges: [
-        {
-          name: HotelContacts.Exchange,
-          type: 'topic'
-        },
         {
           name: OrderContacts.Exchange,
           type: 'topic'
@@ -23,7 +19,7 @@ import { HotelContacts, OrderContacts } from '@booking/contracts';
       ]
     })
   ],
-  controllers: [HotelsController, OrdersController],
-  providers: []
+  controllers: [OrdersController],
+  providers: [PrismaService]
 })
 export class AppModule {}
