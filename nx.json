@@ -34,7 +34,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/api-e2e/**/*"]
+      "exclude": ["apps/api-e2e/**/*", "apps/hotels-e2e/**/*"]
     }
   ],
   "nxCloudAccessToken": "NWI3YmQ1NjUtYjZhNS00ZWQwLTgwYTgtOTBkZGJkNTJlZjFlfHJlYWQtd3JpdGU="

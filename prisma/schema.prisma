@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Hotel {
+  id         Int        @id @default(autoincrement())
+  name       String
+  room_types RoomType[]
+}
+
+model RoomType {
+  id           Int     @id @default(autoincrement())
+  hotel        Hotel   @relation(fields: [hotelId], references: [id])
+  hotelId      Int
+  name         String
+  description  String?
+  maxOccupancy Int
+  price        Float
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
