@@ -14,7 +14,7 @@ import { HotelContacts } from '@booking/contracts';
       exchanges: [
         {
           name: HotelContacts.Exchange,
-          type: 'topic'
+          type: 'direct'
         }
       ]
     })

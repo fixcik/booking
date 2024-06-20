@@ -1,8 +1,9 @@
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
-import { OrdersController } from './orders.controller';
+import { UsersController } from './users.controller';
 import { PrismaService } from './prisma.service';
-import { OrderContacts } from '@booking/contracts';
+import { UsersContracts } from '@booking/contracts';
+import { EmailService } from './email.service';
 
 @Module({
   imports: [
@@ -13,13 +14,13 @@ import { OrderContacts } from '@booking/contracts';
       enableControllerDiscovery: true,
       exchanges: [
         {
-          name: OrderContacts.Exchange,
+          name: UsersContracts.Exchange,
           type: 'direct'
         }
       ]
     })
   ],
-  controllers: [OrdersController],
-  providers: [PrismaService]
+  controllers: [UsersController],
+  providers: [PrismaService, EmailService]
 })
 export class AppModule {}

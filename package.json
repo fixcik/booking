@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run-many --target=serve --parallel"
+    "start": "nx run-many --all --target=serve --maxParallel=100 --parallel"
   },
   "private": true,
   "dependencies": {
@@ -14,8 +14,10 @@
     "@nestjs/swagger": "^7.3.1",
     "@prisma/client": "^5.15.0",
     "axios": "^1.6.0",
+    "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "nodemailer": "^6.9.14",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0"
@@ -36,8 +38,10 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@types/amqplib": "^0.10.5",
+    "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.4.0",
     "@types/node": "~18.16.9",
+    "@types/nodemailer": "^6.4.15",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
     "eslint": "~8.57.0",

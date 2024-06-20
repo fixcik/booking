@@ -2,9 +2,7 @@ import { Controller } from '@nestjs/common';
 import { OrderContacts } from '@booking/contracts';
 import {
   AmqpConnection,
-  ackErrorHandler,
   RabbitRPC,
-  RabbitHandler,
   RabbitSubscribe
 } from '@golevelup/nestjs-rabbitmq';
 import { PrismaService } from './prisma.service';
@@ -39,7 +37,7 @@ export class OrdersController {
 
       await this.amqpConnection.publish(
         OrderContacts.Exchange,
-        'order.created',
+        OrderContacts.CreatedEvent.Event,
         { order: createdOrder }
       );
 
@@ -74,7 +72,8 @@ export class OrdersController {
 
   @RabbitSubscribe({
     exchange: OrderContacts.Exchange,
-    routingKey: 'order.created'
+    routingKey: OrderContacts.CreatedEvent.Event,
+    queue: OrderContacts.CreatedEvent.Queue
   })
   async onNewOrder({ order }: { order: Order }) {
     // Handle new order event
